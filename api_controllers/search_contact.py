@@ -25,7 +25,7 @@ parser.add_argument('page_count', type=str)
 
 # @api.route('/<string:email_id>/<string:first_name>/<int:page_count>')
 @api.route('/')
-class GetStudentDetails(Resource):
+class GetContactDetails(Resource):
 	@api.expect(parser)
 	@api.doc(security='apikey',params={'email_id': 'Email ID'})
 	@AccessTokenRequired
@@ -38,7 +38,7 @@ class GetStudentDetails(Resource):
 		request = parser.parse_args()
 		email_id = request["email_id"]
 		first_name = request["first_name"]
-		page_count = request["page_count"]
+		page_count = int(request["page_count"])
 		print request
 		SearchResponse = {	"data" : [],"ErrMsg" : None, "StatusCode": 1}
 		if email_id or (email_id and first_name):

@@ -107,7 +107,7 @@ class EditContactBook(Resource):
 			UpdateContactDetailResponse["StatusCode"] = -1
 		return UpdateContactDetailResponse, 200
 
-@api.route('/<int:id>/')
+@api.route('/delete/<int:id>/')
 class RemoveContact(Resource):
     # @api.marshal_with(remove_contact_model,envelope='data')
     @api.doc(security='apikey')
