@@ -38,8 +38,8 @@ class GetContactDetails(Resource):
 		request = parser.parse_args()
 		email_id = request["email_id"]
 		first_name = request["first_name"]
-		page_count = int(request["page_count"])
-		print request
+		page_count = request["page_count"]
+		# print request
 		SearchResponse = {	"data" : [],"ErrMsg" : None, "StatusCode": 1}
 		if email_id or (email_id and first_name):
 			is_valid_email = contact_details_validation(**{"email_id":email_id})
@@ -54,7 +54,7 @@ class GetContactDetails(Resource):
 			##Default Case
 			if page_count == None:
 				page_count = 1
-			db_response = get_contact_details(page_count=page_count*DEFAULT_ROWS)
+			db_response = get_contact_details(page_count=int(page_count)*DEFAULT_ROWS)
 		if db_response["data"]:
 			for item in db_response["data"]:
 				# ContactDetailRes = {"ContactId"	: None,"FirstName"	: None,"LastName"	: None,"PhoneNumber":None,"EmailId"	: None}
