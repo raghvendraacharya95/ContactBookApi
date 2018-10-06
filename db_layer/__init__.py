@@ -1,0 +1,2 @@
+CONFIG_FILE = "sql_prod.ini"
+DEFAULT_DB_POOL_SIZE = 2
