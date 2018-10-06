@@ -38,3 +38,7 @@ SELECT * FROM contact_detail_master WHERE last_name = %s
 GET_CONTACT_DETAILS = """
 SELECT * FROM contact_detail_master LIMIT %s
 """
+
+GET_SECRET_KEY = """
+SELECT * FROM auth_master WHERE auth_id = %s
+"""
