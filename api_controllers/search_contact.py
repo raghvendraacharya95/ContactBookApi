@@ -39,6 +39,8 @@ class GetStudentDetails(Resource):
 		email_id = request["email_id"]
 		first_name = request["first_name"]
 		page_count = request["page_count"]
+		print request
+		SearchResponse = {	"data" : [],"ErrMsg" : None, "StatusCode": 1}
 		if email_id or (email_id and first_name):
 			is_valid_email = contact_details_validation(**{"email_id":email_id})
 			if is_valid_email:
@@ -55,7 +57,8 @@ class GetStudentDetails(Resource):
 			db_response = get_contact_details(page_count=page_count*DEFAULT_ROWS)
 		if db_response["data"]:
 			for item in db_response["data"]:
-				ContactDetailRes = {"ContactId"	: None,"FirstName"	: None,"LastName"	: None,"PhoneNumber":None,"EmailId"	: None}
+				# ContactDetailRes = {"ContactId"	: None,"FirstName"	: None,"LastName"	: None,"PhoneNumber":None,"EmailId"	: None}
+				ContactDetailRes = {}
 				ContactDetailRes["ContactId"] = int(item["id"])
 				ContactDetailRes["FirstName"] = str(item["first_name"])
 				ContactDetailRes["LastName"] = str(item["last_name"])

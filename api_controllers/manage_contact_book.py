@@ -50,7 +50,7 @@ RemoveContactResponse = {
 }
 
 @api.route('/Add')
-class ContactBook(Resource):
+class AddContact(Resource):
 	@api.expect(contact_book_model,envelope='data')
 	@api.doc(security='apikey')
 	@AccessTokenRequired
@@ -79,6 +79,8 @@ class ContactBook(Resource):
 			NewContactAddResponse["StatusCode"] = -1
 		return NewContactAddResponse, 201
 
+@api.route('/Edit')
+class EditContactBook(Resource):
 	@api.expect(update_contact_book_model,envelope='data')
 	@api.doc(security='apikey')
 	@AccessTokenRequired
