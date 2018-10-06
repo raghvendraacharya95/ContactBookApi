@@ -13,12 +13,12 @@ AuthModel = api.model("auth", {
     "SecretKey": fields.String("Pass Super Secret Key")
 })
 
-AuthResponse = {
-	"data" : {
-		"Token":None
-	},
-	"ErrMsg":None
-}
+# AuthResponse = {
+# 	"data" : {
+# 		"Token":None
+# 	},
+# 	"ErrMsg":None
+# }
 
 def AccessTokenRequired(func):
     def decorated(*args,**kwargs):
@@ -49,6 +49,7 @@ class GetAuthToken(Resource):
         """
         Generate Access Token
         """
+        AuthResponse = {"data" : {"Token":None},"ErrMsg":None}
         request_payload = api.payload
         requested_key = str(request_payload["SecretKey"])
         SuperSecretKey = get_secret_key()

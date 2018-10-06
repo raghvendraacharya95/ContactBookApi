@@ -65,4 +65,6 @@ class GetContactDetails(Resource):
 				ContactDetailRes["PhoneNumber"] = str(item["phone_number"])
 				ContactDetailRes["EmailId"] = str(item["email_id"])
 				SearchResponse["data"].append(ContactDetailRes)
+				SearchResponse["ErrMsg"] = ""
+				SearchResponse["StatusCode"] = 1
 		return SearchResponse, 200

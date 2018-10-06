@@ -64,6 +64,7 @@ class AddContact(Resource):
 			db_response = add_new_contact(**request_payload)
 			if db_response["is_added"]:
 				NewContactAddResponse["data"]["ContactId"] = str(db_response["ID"])
+				NewContactAddResponse["data"]["Msg"] = ""
 			# 	NewContactAddResponse["data"]["Msg"] = str(db_response["ErrMsg"])
 			# else:
 			# 	NewContactAddResponse["data"]["Msg"] = str(db_response["ErrMsg"])
