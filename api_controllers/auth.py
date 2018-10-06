@@ -2,8 +2,8 @@ from flask_restplus import Namespace, Resource, fields
 from flask_restplus import reqparse
 from flask import request
 import hashlib
+from db_layer.db_operations import *
 
-SuperSecretKey = "SonOfOdin"
 PlivoTokenKey = "PlivoCommunication"
 DevelopmentKey = "YouKnowNothing"
 
@@ -51,9 +51,10 @@ class GetAuthToken(Resource):
         """
         request_payload = api.payload
         requested_key = str(request_payload["SecretKey"])
+        SuperSecretKey = get_secret_key()
         if requested_key == SuperSecretKey:
-            # token = get_md5_token(PlivoTokenKey)
-            token = get_md5_token(DevelopmentKey)
+            # token = get_md5_token(PlivoTokenKey+SuperSecretKey)
+            token = get_md5_token(DevelopmentKey+SuperSecretKey)
             AuthResponse["data"]["Token"] = token
         else:
             AuthResponse["ErrMsg"] = "Pass Valid SuperSecretKey"

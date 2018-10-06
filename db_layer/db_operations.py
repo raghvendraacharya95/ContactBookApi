@@ -126,3 +126,13 @@ def get_contact_details(email_id=None,first_name=None,page_count=None):
 		return db_response
 	except Exception as e:
 		raise e
+
+def get_secret_key():
+	try:
+		db = DB(global_server)
+		auth_id = 1
+		res = db.execute_query(GET_SECRET_KEY,params=auth_id,execute_query=True,commit=True,return_result=True)
+		key = str(res[0]["auth_key"])
+		return key
+	except Exception as e:
+		raise e
