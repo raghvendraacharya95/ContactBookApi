@@ -25,30 +25,6 @@ BaseResponse = {
 	"data" : None,"ErrMsg":None
 }
 
-NewContactAddResponse = {"data" : {
-		"ContactId":None,
-		"Msg": None
-	},
-	"ErrMsg":None,
-	"StatusCode":1
-}
-
-UpdateContactDetailResponse = {
-	"data" :{
-		"Msg" : None
-	},
-	"ErrMsg": None,
-	"StatusCode":1
-}
-
-RemoveContactResponse = {
-	"data":{
-		"Msg" : None
-	},
-	"ErrMsg": None,
-	"StatusCode":1
-}
-
 @api.route('/Add')
 class AddContact(Resource):
 	@api.expect(contact_book_model,envelope='data')
@@ -58,6 +34,7 @@ class AddContact(Resource):
 		"""
 		add new contact to the phone book
 		"""
+		NewContactAddResponse = {"data":{"ContactId":None,"Msg": None},"ErrMsg":None,"StatusCode":1}
 		request_payload = api.payload
 		is_valid_phn,is_valid_email =  contact_details_validation(**request_payload)
 		if is_valid_email and is_valid_phn:
@@ -65,9 +42,6 @@ class AddContact(Resource):
 			if db_response["is_added"]:
 				NewContactAddResponse["data"]["ContactId"] = str(db_response["ID"])
 				NewContactAddResponse["data"]["Msg"] = ""
-			# 	NewContactAddResponse["data"]["Msg"] = str(db_response["ErrMsg"])
-			# else:
-			# 	NewContactAddResponse["data"]["Msg"] = str(db_response["ErrMsg"])
 			NewContactAddResponse["data"]["Msg"] = str(db_response["ErrMsg"])
 		elif is_valid_phn == False and is_valid_email:
 			NewContactAddResponse["data"]["Msg"] = "Please Pass Valid Phone Number."
@@ -90,8 +64,11 @@ class EditContactBook(Resource):
 		edit existing contact detail pass valid contact-id
 		"""
 		request_payload = api.payload
-		if "ContactId" not in request_payload.keys() or int(request_payload["ContactId"]) == 0:
+		UpdateContactDetailResponse = {"data" :{"Msg" : None},"ErrMsg": None,"StatusCode":1}
+		print request_payload
+		if "contact_id" not in request_payload.keys() or int(request_payload["contact_id"]) == 0:
 			UpdateContactDetailResponse["data"]["Msg"] = "Please Pass Valid ContactId."
+			UpdateContactDetailResponse["StatusCode"] = -1
 		else:
 			is_valid_phn,is_valid_email =  contact_details_validation(**request_payload)
 			if is_valid_email and is_valid_phn:
@@ -120,6 +97,7 @@ class RemoveContact(Resource):
         """
         remove a contact from contact book
         """
+        RemoveContactResponse = {"data":{"Msg" : None},"ErrMsg": None,"StatusCode":1}
         db_response = remove_contact(**{"contact_id":str(contact_id)})
         RemoveContactResponse["data"]["Msg"] = str(db_response["ErrMsg"])
         return RemoveContactResponse,200
