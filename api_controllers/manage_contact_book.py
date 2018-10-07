@@ -90,34 +90,37 @@ class EditContactBook(Resource):
 		edit existing contact detail pass valid contact-id
 		"""
 		request_payload = api.payload
-		is_valid_phn,is_valid_email =  contact_details_validation(**request_payload)
-		if is_valid_email and is_valid_phn:
-			db_response = update_contact_details(**request_payload)
-			UpdateContactDetailResponse["data"]["Msg"] = str(db_response["ErrMsg"])
-			# if db_response["is_updated"]:
-			# else:
-			# 	UpdateContactDetailResponse["data"]["Msg"] = str(db_response["ErrMsg"])
-		elif is_valid_phn == False and is_valid_email:
-			UpdateContactDetailResponse["data"]["Msg"] = "Please Pass Valid Phone Number."
-			UpdateContactDetailResponse["StatusCode"] = -1
-		elif is_valid_email == False and is_valid_phn:
-			UpdateContactDetailResponse["data"]["Msg"] = "Please Pass Valid Email Id."
-			UpdateContactDetailResponse["StatusCode"] = -1
+		if "ContactId" not in request_payload.keys() or int(request_payload["ContactId"]) == 0:
+			UpdateContactDetailResponse["data"]["Msg"] = "Please Pass Valid ContactId."
 		else:
-			UpdateContactDetailResponse["data"]["Msg"] = "Please Pass Valid Email Id and Phone Number."
-			UpdateContactDetailResponse["StatusCode"] = -1
+			is_valid_phn,is_valid_email =  contact_details_validation(**request_payload)
+			if is_valid_email and is_valid_phn:
+				db_response = update_contact_details(**request_payload)
+				UpdateContactDetailResponse["data"]["Msg"] = str(db_response["ErrMsg"])
+				# if db_response["is_updated"]:
+				# else:
+				# 	UpdateContactDetailResponse["data"]["Msg"] = str(db_response["ErrMsg"])
+			elif is_valid_phn == False and is_valid_email:
+				UpdateContactDetailResponse["data"]["Msg"] = "Please Pass Valid Phone Number."
+				UpdateContactDetailResponse["StatusCode"] = -1
+			elif is_valid_email == False and is_valid_phn:
+				UpdateContactDetailResponse["data"]["Msg"] = "Please Pass Valid Email Id."
+				UpdateContactDetailResponse["StatusCode"] = -1
+			else:
+				UpdateContactDetailResponse["data"]["Msg"] = "Please Pass Valid Email Id and Phone Number."
+				UpdateContactDetailResponse["StatusCode"] = -1
 		return UpdateContactDetailResponse, 200
 
-@api.route('/delete/<int:id>/')
+@api.route('/delete/<int:contact_id>/')
 class RemoveContact(Resource):
     # @api.marshal_with(remove_contact_model,envelope='data')
-    @api.doc(security='apikey')
+    @api.doc(security='apikey',params={'contact_id':'ContactId to remove.'})
     @AccessTokenRequired
-    def get(self,id):
+    def get(self,contact_id):
         """
         remove a contact from contact book
         """
-        db_response = remove_contact(**{"contact_id":str(id)})
+        db_response = remove_contact(**{"contact_id":str(contact_id)})
         RemoveContactResponse["data"]["Msg"] = str(db_response["ErrMsg"])
         return RemoveContactResponse,200
 

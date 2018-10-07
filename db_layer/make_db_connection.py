@@ -21,7 +21,6 @@ def get_mysql_db_engine(server_name,refresh=False):
 	engine_key = server+db_name+user+password	
 	
 	if not engine_key in engines or refresh==True:
-		#engines[engine_key] = create_engine('mysql+mysql://me@localhost/mydb',pool_size=20, max_overflow=0)
 		db_url="mysql+pymysql://"+user+":"+password+"@"+server+"/"+db_name+"?charset=utf8"
 		print "creating engine "+str(db_url)
 		engines[engine_key]=create_engine(db_url,pool_size=DEFAULT_DB_POOL_SIZE,max_overflow=0)
@@ -29,14 +28,9 @@ def get_mysql_db_engine(server_name,refresh=False):
 
 
 class DB(object):
-	def __init__(self,server_name):	
-		from sqlalchemy import exc	
+	def __init__(self,server_name):
 		self.engine = get_mysql_db_engine(server_name)
 		self.server_name = server_name
-		
-	def __refresh__(self):
-		print "refreshing ..."
-		self.engine=get_mysql_db_engine(self.server_name)
 		
 	def execute_query(self,str_query,params=None,commit=False,return_result=True,execute_query=False,return_id=False):
 		result=None		

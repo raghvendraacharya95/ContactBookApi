@@ -28,7 +28,7 @@ def AccessTokenRequired(func):
         if "X-API-KEY" in request.headers:
             access_token  = request.headers["X-API-KEY"]
         if not access_token:    
-            return {"ErrMsg":"Access Token Is Missing."}, 401
+            return {"ErrMsg":"Access Token Is Missing, Genrate Access Token Using Auth Api."}, 401
         SuperSecretKey = get_secret_key()
         true_toke = get_md5_token(DevelopmentKey+SuperSecretKey)
         if access_token != true_toke:

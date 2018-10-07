@@ -27,7 +27,7 @@ parser.add_argument('page_count', type=str)
 @api.route('/')
 class GetContactDetails(Resource):
 	@api.expect(parser)
-	@api.doc(security='apikey',params={'email_id': 'Email ID'})
+	@api.doc(security='apikey',params={'email_id': 'Email-Id to search','first_name':'First name to search.','page_count':'10 Entries per page.'})
 	@AccessTokenRequired
 	def get(self):
 		"""

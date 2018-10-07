@@ -13,7 +13,7 @@ def add_new_contact(*args,**kwargs):
 			email_id = str(kwargs["email_id"])
 			f_name = str(kwargs["first_name"])
 			l_name = str(kwargs["last_name"]) if "last_name" in kwargs.keys() else ""
-			##Check Unique Email and Uniq Phone number
+			##Check Unique Email and Uniqe Phone number
 			##Method 1 Scan Table For Email And Phone(Indexed Column)
 			##Method 2 Get From Redis Cache
 			is_phn_exists,is_email_exists =  is_phn_email_exists(phn_number,email_id)
@@ -121,7 +121,7 @@ def get_contact_details(email_id=None,first_name=None,page_count=None):
 		elif first_name:
 			res = db.execute_query(GET_CONTACT_DETAILS_BY_FIRST_NAME,params=(first_name),execute_query=True,commit=True,return_result=True)
 		else:
-			res = db.execute_query(GET_CONTACT_DETAILS,params=(page_count),execute_query=True,commit=True,return_result=True)
+			res = db.execute_query(GET_CONTACT_DETAILS_ALL,params=(page_count),execute_query=True,commit=True,return_result=True)
 		db_response["data"] = res
 		return db_response
 	except Exception as e:

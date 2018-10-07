@@ -35,7 +35,7 @@ GET_CONTACT_DETAILS_BY_LAST_NAME = """
 SELECT * FROM contact_detail_master WHERE last_name = %s
 """
 
-GET_CONTACT_DETAILS = """
+GET_CONTACT_DETAILS_ALL = """
 SELECT * FROM contact_detail_master LIMIT %s
 """
 
